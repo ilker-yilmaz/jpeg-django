@@ -4,10 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    {% block css_files %}
-        <link rel="stylesheet" href="{% static '/compress/css/bootstrap.min.css' %}">
-    {% endblock %}
+    {% block page_title %}Compression{% endblock %}
+
 
 </head>
 
@@ -26,8 +24,3 @@
     </body>
 {% endblock %}
 </html>
-
-{% block js_files %}
-    <script src="{% static '/compress/js/code.jquery.com_jquery-3.7.1.min.js' %}"></script>
-    <script src="{% static '/compress/js/bootstrap.min.js' %}"></script>
-{% endblock %}

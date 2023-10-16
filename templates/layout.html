@@ -3,9 +3,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>
+        Compress | {% block page_title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static '/compress/css/bootstrap.min.css' %}">
+
     {% block css_files %}
-        <link rel="stylesheet" href="{% static '/compress/css/bootstrap.min.css' %}">
     {% endblock %}
 </head>
 <body>
@@ -54,12 +57,6 @@
     </nav>
 
     {% block content %}{% endblock %}
-
-    {% block index %}{% endblock %}
-
-    {% block upload %}{% endblock %}
-
-    {% block success %}{% endblock %}
 
 </div>
 
