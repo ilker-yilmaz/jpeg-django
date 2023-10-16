@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% block css_files %}
+        <link rel="stylesheet" href="{% static '/compress/css/bootstrap.min.css' %}">
+    {% endblock %}
+
+</head>
+
+{% block content %}
+    <body>
+
+    <div>
+        <h1>Bizim Sayfamız</h1>
+        <div>
+            <img class="rounded-circle" src="{% static '/compress/img/1.png' %}" alt="1">
+        </div>
+
+
+    </div>
+
+    </body>
+{% endblock %}
+</html>
+
+{% block js_files %}
+    <script src="{% static '/compress/js/code.jquery.com_jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static '/compress/js/bootstrap.min.js' %}"></script>
+{% endblock %}

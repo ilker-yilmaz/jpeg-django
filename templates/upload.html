@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{#{% block css_files %}#}
+{#    <link rel="stylesheet" href="{% static '/compress/css/bootstrap.min.css' %}">#}
+{#{% endblock %}#}
+
+{% block title %}
+    <title>Compression</title>
+{% endblock %}
+
+{% block upload %}
+    <body>
+
+    <div>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" name="image">
+                            <button class="input-group-text" type="submit">Yükle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </body>
+{% endblock %}
+
+{#{% block js_files %}#}
+{#    <script src="{% static '/compress/js/code.jquery.com_jquery-3.7.1.min.js' %}"></script>#}
+{#    <script src="{% static '/compress/js/bootstrap.min.js' %}"></script>#}
+{#{% endblock %}#}
