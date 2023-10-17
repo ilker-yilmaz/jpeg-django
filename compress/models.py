@@ -15,6 +15,7 @@ class UploadModel(models.Model):
     image_compression_time = models.FloatField()
     image_compression_date = models.DateTimeField(auto_now_add=True)
     image_compression_status = models.BooleanField(default=False)
+    image_compression_psnr = models.FloatField(null=True)
 
     def __str__(self):
         return self.image_name
