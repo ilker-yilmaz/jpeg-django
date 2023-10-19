@@ -15,14 +15,15 @@ def compress(request):
     return render(request, 'compression.html')
 
 def upload(request):
+    compress = UploadModel.objects.all()
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES['image']
             model = UploadModel(image=file, image_size=file.size, image_name=file.name, image_format=file.content_type, image_compressed_size=file.size, image_compressed_format=file.content_type, image_compression_ratio=0.0, image_compression_time=0.0, image_compression_status=False, image_compression_psnr=0.0)
             model.save()
-            return render(request, 'success.html')
+            return render(request, 'partials/_upload.html',{'compress': compress})
     else:
         form = UploadForm()
-    return render(request, 'partials/_upload.html', {'form': form})
+    return render(request, 'partials/_upload.html', {'form': form}, )
 
