@@ -6,21 +6,33 @@
             <div class="col-12">
                 <form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data" class="form">
                     {% csrf_token %}
-
                     <div class="input-group mb-3">
-                        {{ form }}
+                        {{ form.image }}
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">Yükle</button>
                         </div>
-
-                        <!-- Statik dosyaları dahil etmek için gerekli templatetags'ı yükleyin -->
-                        {% for image in compress %}
-                            <img src="{{ image.image.url }}" alt="Resim">
-                        {% endfor %}
-
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="row mt-3">
+            <div class="row mt-3">
+                {% if compress %}
+                    {# Get the last item in the queryset #}
+                    {% with last_item=compress.last %}
+                        <div class="col-6">
+                            <h3>Orijinal Görüntü</h3>
+                            <img src="{{ last_item.image.url }}" alt="Orijinal Resim" class="img-fluid">
+                        </div>
+                        <div class="col-6">
+                            <h3>Sıkıştırılmış Görüntü</h3>
+                            <img src="{{ last_item.image_compressed.url }}" alt="Sıkıştırılmış Resim" class="img-fluid">
+                        </div>
+                    {% endwith %}
+                {% endif %}
+            </div>
+
+
         </div>
     </div>
 {% endblock %}
