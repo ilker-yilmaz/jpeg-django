@@ -455,4 +455,5 @@ def plot_graph(
 #     block_size = 8
 #     num_coefficients = 10
 #     color = "y"
-#     plot_images(*analyze_image(img_path, block_size, num_coefficients, color))
+#     plot_images(*analyze_
+#     image(img_path, block_size, num_coefficients, color))

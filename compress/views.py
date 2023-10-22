@@ -21,20 +21,8 @@ def compress(request):
     return render(request, 'compression.html')
 
 
-# def upload(request):
-#     compress = UploadModel.objects.all()
-#     if request.method == 'POST':
-#         form = UploadForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             file = request.FILES['image']
-#             model = UploadModel(image=file, image_size=file.size, image_name=file.name, image_format=file.content_type, image_compressed_size=file.size, image_compressed_format=file.content_type, image_compression_ratio=0.0, image_compression_time=0.0, image_compression_status=False, image_compression_psnr=0.0)
-#             model.save()
-#             return render(request, 'partials/_upload.html',{'compress': compress})
-#     else:
-#         form = UploadForm()
-#     return render(request, 'partials/_upload.html', {'form': form}, )
-
 def upload(request):
+    quantization_tables = load_quantization_tables()
     compress = UploadModel.objects.all()
 
     if request.method == 'POST':
@@ -53,6 +41,12 @@ def upload(request):
             num_coefficients = 10
             color = True  # Görüntü rengarenkse True, siyah beyazsa False (Varsayılan olarak True)
 
+            # Seçilen kuantalama tablosunu al
+            selected_quantization_table = request.POST.get('quantization-table')
+
+            # Seçilen tabloyu kullanarak JPEG sıkıştırma işlemini yap
+            #selected_table = quantization_tables[int(selected_quantization_table) - 1]
+
             original_img, compressed_img, psnr, compression_ratio, encoded_img, color = analyze_image(img_path,
                                                                                                       block_size,
                                                                                                       num_coefficients,
@@ -69,6 +63,8 @@ def upload(request):
             with open(temp_file.name, 'rb') as compressed_img:
                 model.image_compressed.save(model.image_name, File(compressed_img))
 
+
+
             model.image_compressed_size = os.path.getsize(model.image_compressed.path)
             model.image_compressed_format = "image/jpeg"  # Varsayılan sıkıştırma formatı olarak JPEG kullanılıyor
             model.image_compression_ratio = compression_ratio
@@ -82,4 +78,15 @@ def upload(request):
                            'psnr': psnr, 'compression_ratio': compression_ratio})
     else:
         form = UploadForm()
-    return render(request, 'partials/_upload.html', {'form': form})
+    return render(request, 'partials/_upload.html', {'form': form, 'quantization_tables': quantization_tables})
+
+
+import json
+
+
+def load_quantization_tables():
+    # JSON dosyasını okuyun
+    with open('compress/static/compress/data/veri.json', 'r') as json_file:
+        quantization_data = json.load(json_file)
+
+    return quantization_data
