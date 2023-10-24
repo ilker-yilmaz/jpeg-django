@@ -12,16 +12,22 @@
                             <button class="btn btn-primary" type="submit">Yükle</button>
                         </div>
                     </div>
+                    <label for="quantization-table">Kuantalama Tablosu Seçin:</label>
+                    <select name="quantization-table" id="quantization-table" class="form-control">
+                        {% for table in quantization_tables %}
+                            <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>
+                        {% endfor %}
+                    </select>
                 </form>
             </div>
         </div>
         <div class="row mt-3">
-            <label for="quantization-table">Kuantalama Tablosu Seçin:</label>
-            <select name="quantization-table" id="quantization-table" class="form-control">
-                {% for table in quantization_tables %}
-                    <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>
-                {% endfor %}
-            </select>
+            {#            <label for="quantization-table">Kuantalama Tablosu Seçin:</label>#}
+            {#            <select name="quantization-table" id="quantization-table" class="form-control">#}
+            {#                {% for table in quantization_tables %}#}
+            {#                    <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>#}
+            {#                {% endfor %}#}
+            {#            </select>#}
         </div>
 
         <div class="row mt-3">

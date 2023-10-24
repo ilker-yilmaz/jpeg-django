@@ -1,5 +1,6 @@
 import tempfile
 
+import numpy as np
 from django.core.files import File
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -45,12 +46,19 @@ def upload(request):
             selected_quantization_table = request.POST.get('quantization-table')
 
             # Seçilen tabloyu kullanarak JPEG sıkıştırma işlemini yap
-            #selected_table = quantization_tables[int(selected_quantization_table) - 1]
+            if selected_quantization_table is not None:
+                selected_table = np.array(quantization_tables[int(selected_quantization_table) - 1], dtype=np.float32)
+                print("seçildi",selected_table)
+            else:
+                # Kuantalama tablosu seçilmediğinde varsayılan bir değer atayabilir veya hata mesajı gösterebilirsiniz.
+                # Örnek olarak, varsayılan değeri -1 olarak atayabilirsiniz:
+                print("Kuantalama tablosu seçilmedi. Varsayılan tablo kullanılacak.", quantization_tables[0])
+                selected_table = np.array(quantization_tables[0], dtype=np.float32)
 
             original_img, compressed_img, psnr, compression_ratio, encoded_img, color = analyze_image(img_path,
                                                                                                       block_size,
                                                                                                       num_coefficients,
-                                                                                                      color)
+                                                                                                      color, selected_table)
 
             # Sıkıştırılmış görüntüyü modelde sakla
             # Geçici bir dosyaya sıkıştırılmış görüntüyü kaydet
