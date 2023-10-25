@@ -2,49 +2,70 @@
 {% load static %}
 {% block content %}
     <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data" class="form">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        {{ form.image }}
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Yükle</button>
-                        </div>
+    <div class="row">
+        <div class="col-12">
+            <form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data" class="form">
+                {% csrf_token %}
+                <label for="quantization-table">Kuantalama Tablosu Seçin:</label>
+                <select name="quantization-table" id="quantization-table" class="form-control">
+                    {% for table in quantization_tables %}
+                        <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>
+                    {% endfor %}
+                </select>
+                <br> <br>
+                <div class="input-group mb-3">
+                    {{ form.image }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Yükle</button>
                     </div>
-                    <label for="quantization-table">Kuantalama Tablosu Seçin:</label>
-                    <select name="quantization-table" id="quantization-table" class="form-control">
-                        {% for table in quantization_tables %}
-                            <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </div>
-        </div>
-        <div class="row mt-3">
-            {#            <label for="quantization-table">Kuantalama Tablosu Seçin:</label>#}
-            {#            <select name="quantization-table" id="quantization-table" class="form-control">#}
-            {#                {% for table in quantization_tables %}#}
-            {#                    <option value="{{ forloop.counter }}">Tablo {{ forloop.counter }}</option>#}
-            {#                {% endfor %}#}
-            {#            </select>#}
-        </div>
+                </div>
 
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-3">
         <div class="row mt-3">
-            <div class="row mt-3">
-                {% if compress %}
-                    {# Get the last item in the queryset #}
-                    {% with last_item=compress.last %}
-                        <div class="col-6">
-                            <h3>Orijinal Görüntü</h3>
-                            <img src="{{ last_item.image.url }}" alt="Orijinal Resim" class="img-fluid">
-                        </div>
-                        <div class="col-6">
-                            <h3>Sıkıştırılmış Görüntü</h3>
-                            <img src="{{ last_item.image_compressed.url }}" alt="Sıkıştırılmış Resim" class="img-fluid">
-                        </div>
-                    {% endwith %}
-                {% endif %}
+            {% if compress %}
+                {# Get the last item in the queryset #}
+                {% with last_item=compress.last %}
+                    <div class="col-6">
+                        <h3>Orijinal Görüntü</h3>
+                        <img src="{{ last_item.image.url }}" alt="Orijinal Resim" class="img-fluid">
+                        <br>
+                        <a href="{{ last_item.image.url }}" download="original_image.jpg">Orijinal Görüntüyü İndir</a>
+
+                    </div>
+                    <div class="col-6">
+                        <h3>Sıkıştırılmış Görüntü</h3>
+                        <img src="{{ last_item.image_compressed.url }}" alt="Sıkıştırılmış Resim" class="img-fluid">
+                        <br>
+                        <a href="{{ last_item.image_compressed.url }}" download="compressed_image.jpg">Sıkıştırılmış
+                            Görüntüyü İndir</a>
+                    </div>
+                    <br>
+
+                    <div class="container">
+                    <div class="">
+                        <h3>PSNR</h3>
+                        <p>{{ last_item.image_compression_psnr }}</p>
+                    </div>
+                    <div class="">
+                        <h3>Compression Ratio</h3>
+                        <p>{{ last_item.image_compression_ratio }}</p>
+                    </div>
+                    <div>
+                        <h3>Orijinal Görüntü Boyutu</h3>
+                        <p>{{ last_item.image_size }}</p>
+                    </div>
+                    <div>
+                        <h3>Sıkıştırılmış Görüntü Boyutu</h3>
+                        <p>{{ last_item.image_compressed_size }}</p>
+                    </div>
+
+
+                {% endwith %}
+            {% endif %}
             </div>
 
 
