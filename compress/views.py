@@ -94,7 +94,7 @@ import json
 
 def load_quantization_tables():
     # JSON dosyasını okuyun
-    with open('compress/static/compress/data/veri.json', 'r') as json_file:
+    with open('static/compress/data/veri.json', 'r') as json_file:
         quantization_data = json.load(json_file)
 
     return quantization_data
